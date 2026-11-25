@@ -1,0 +1,54 @@
+[
+  {
+    "exam_id": "8f4d94ea-daa9-4c36-8aeb-0ad4f6bfc260",
+    "date": "2026-11-25 15:11",
+    "total": 5,
+    "correct": 4,
+    "incorrect": 1,
+    "unattempted": 0,
+    "percentage": 80.0,
+    "time_taken": 90,
+    "results": [
+      {
+        "id": "1",
+        "correct_answer": "D",
+        "user_answer": "A",
+        "status": "incorrect",
+        "correct": false,
+        "explanation": "A. The synthesis agent needs tools that can fetch results directly from the other agents' conversation\nhistories. Incorrect.\nAgents do not require direct access to each other’s histories. Proper orchestration passes outputs explicitly\nvia prompts.\nB. The synthesis agent's context window is not large enough to hold the combined outputs from both\nprevious agents. Incorrect.\nIf this were the issue, the agent would receive truncated data, not no data at all. The error indicates missing\ninputs entirely.\nC. The subagents need to share a single API connection to enable automatic context sharing between\ninvocations. Incorrect.\nAgent communication does not depend on shared API connections. Context must be explicitly passed by the\ncoordinator.\nD. The coordinator did not include the outputs from the previous agents in the synthesis agent's prompt.\nCorrect.\nThe synthesis agent can only act on the information provided in its prompt. If prior outputs are not passed, it\nwill report missing research findings."
+      },
+      {
+        "id": "2",
+        "correct_answer": "A",
+        "user_answer": "A",
+        "status": "correct",
+        "correct": true,
+        "explanation": "A. Require subagents to include publication or data collection dates in their structured outputs. Correct.\nProviding timestamps allows the synthesis agent to understand that the figures refer to different points in\ntime, enabling it to interpret the data as a trend (growth) rather than a contradiction.\nB. Instruct the synthesis agent to always treat the most recent data as authoritative and place older\nfindings in a separate historical appendix. Incorrect.\nThis approach hides useful context and does not help the agent understand relationships between data points\nover time.\nC. Add a conflict resolution agent that automatically discards older data when newer data exists for the\nsame metric. Incorrect.\nDiscarding older data removes valuable historical insight and prevents trend analysis.\nD. Configure the web search agent to only return results from the past 6 months. Incorrect.\nLimiting recency reduces context and does not address the core issue of interpreting time-based differences."
+      },
+      {
+        "id": "3",
+        "correct_answer": "A",
+        "user_answer": "A",
+        "status": "correct",
+        "correct": true,
+        "explanation": "A. Have the analysis agent report specific gaps to the coordinator, which triggers targeted searches and re-\ninvokes analysis until sufficient.\nThis introduces a dynamic, agentic loop (or reflection pattern) into the workflow. Instead of a rigid, linear\npipeline where steps cannot be retraced, the system can now adapt based on what it discovers.\nThe Analysis Agent is the Expert: The document analysis agent is the one actively reading the text and\nidentifying exactly what is missing (e.g., \"missing token refresh patterns\").\nThe Coordinator Manages the Flow: By reporting these specific gaps back to the coordinator, the coordinator\ncan intelligently route the workflow back to the search agent with a highly targeted query, then pass the new\nfindings back to the analysis agent to close the loop.\nWhy other options are incorrect:\nOption B (Research Planning Agent): While planning before searching is helpful, it is speculative. A planner\ncannot reliably predict exactly what information will be missing or lacking in the retrieved documents before\nthey are actually read and analyzed.\nOption C (Confidence Scores for Manual Review): This passes the architectural problem onto a human\noperator r"
+      },
+      {
+        "id": "4",
+        "correct_answer": "A",
+        "user_answer": "A",
+        "status": "correct",
+        "correct": true,
+        "explanation": "A. Have each agent persist a structured export to a known location. On resume, the coordinator loads the\nmanifest and injects relevant state into agent prompts. Correct.\nThis provides high information fidelity (structured, complete outputs) while maintaining context efficiency\n(only relevant pieces are re-injected into prompts). The coordinator remains in control of what each agent\nneeds, avoiding unnecessary bloat and duplication.\nB. Persist the coordinator's conversation log containing all task delegations and responses, providing this\nto agents when resuming. ❌ Incorrect.\nConversation logs are often verbose and unstructured, leading to context overload and inefficient prompt\nusage without guaranteed clarity.\nC. Have each agent maintain its own persistent state file and reload it independently at the start of each\nsession. ❌ Incorrect.\nThis decentralizes control and can lead to inconsistencies and coordination issues, especially when agents\nneed shared or aligned context.\nD. Index all agent outputs in a shared vector store. When resuming each agent queries the store using\nsemantic search to retrieve relevant prior findings. Incorrect.\nVector stores are useful for retrieval, but t"
+      },
+      {
+        "id": "5",
+        "correct_answer": "A",
+        "user_answer": "A",
+        "status": "correct",
+        "correct": true,
+        "explanation": "A. Have the coordinator evaluate synthesis output for gaps, then re-delegate to web search and document\nanalysis with targeted queries before invoking synthesis again. Correct.\nThis introduces an iterative feedback loop, where identified gaps are actively addressed. The coordinator\nmaintains control and ensures completeness before final report generation.\nB. Increase the initial breadth of queries sent to web search and document analysis to reduce the\nprobability of missing relevant information. Incorrect.\nBroader queries may help coverage but are inefficient and still won’t guarantee that specific gaps discovered\nlater are filled.\nC. Have the report generation agent note which research questions couldn't be answered, so users\nunderstand the limitations of the final output. Incorrect.\nThis improves transparency but does not solve the completeness problem.\nD. Give the synthesis agent direct access to web search tools so it can autonomously fill knowledge gaps\nwithout returning control to the coordinator. Incorrect.\nThis breaks separation of concerns and reduces system control. The coordinator should manage task\ndelegation, not the synthesis agent."
+      }
+    ]
+  }
+]
